@@ -1,15 +1,15 @@
-create schema ol_bookdb;
+create schema ol_bookdb2;
 
-create table ol_bookdb.book {
+create table ol_bookdb2.book {
     id serial primary key,
-    title text not null,
-    author text not null,
+    title text,
+    author text,
     publication_date date
 };
 
-create table ol_bookdb.word_frequency {
+create table ol_bookdb2.word_frequency {
     id serial primary key,
     book_id integer references ol_bookdb.book(id),
-    word text not null,
-    frequency integer not null
+    word text,
+    frequency integer 
 };
