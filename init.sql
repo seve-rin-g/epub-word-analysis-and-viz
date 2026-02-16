@@ -3,8 +3,7 @@ create schema ol_bookdb;
 create table ol_bookdb.book (
     id serial primary key,
     title text,
-    author text,
-    publication_date date
+    author text
 );
 
 create table ol_bookdb.word_frequency (
