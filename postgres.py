@@ -27,5 +27,4 @@ for i in range(10):
     db_engine.execute(text(query))
     LOGGER.info(f"record {i} inserted: {query}")
 
-db_engine.commit() # commit the transaction
 db_engine.close()
