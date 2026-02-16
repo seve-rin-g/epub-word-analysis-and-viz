@@ -4,7 +4,7 @@ import time
 
 def get_db_engine():
     # create engine for connecting to PostgreSQL
-    return create_engine('postgresql://{}:{}@{}/{}'.format('postgres', 'postgrespw', 'localhost:5432','ol_bookdb'))
+    return create_engine('postgresql://{}:{}@{}/{}'.format('postgres', 'postgrespw', 'postgres:5432','ol_bookdb'))
 
 while True:
     try:
