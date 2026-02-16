@@ -26,3 +26,14 @@ services:
       - postgres
     networks:
       - dem
+  app:
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile_app
+    volumes:
+      - .:/postgres_python
+    depends_on:
+      - postgres
+    networks:
+      - dem 
