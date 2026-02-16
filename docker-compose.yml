@@ -7,7 +7,7 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgrespw
-      - POSTGRES_DB=ol_bookdb2
+      - POSTGRES_DB=ol_bookdb
     ports:
       - "5432:5432"
     volumes:
