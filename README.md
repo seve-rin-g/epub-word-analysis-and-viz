@@ -1,5 +1,7 @@
 ## Summary
 
+I wanted to address some gaps in my understanding of backend, so I'm building this small app before moving onto replicating a larger time-series postgresdb. 
+
 *One-liner about this app.*
 
 *Screenshot goes here.*
@@ -21,3 +23,4 @@ Although I've interacted with several (often very complex) postgres databases, I
 
 I'm following this tutorial: https://www.youtube.com/watch?v=Pox10kU7d2c
 
+So far, most issues are syntax issues within the `init.sql` and addressed via finding errors in `docker compose logs postgres`.      
