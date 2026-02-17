@@ -1,6 +1,6 @@
 ## Summary
 
-I wanted to address some gaps in my understanding of backend, so I'm building this small app before moving onto replicating a larger time-series postgresdb. 
+I wanted to strengthen my backend knowledge, so I'm building this small app before moving onto replicating a larger time-series postgresdb. 
 
 *One-liner about this app.*
 
