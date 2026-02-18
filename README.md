@@ -23,4 +23,6 @@ Although I've interacted with several (often very complex) postgres databases, I
 
 I'm following this tutorial: https://www.youtube.com/watch?v=Pox10kU7d2c
 
-So far, most issues are syntax issues within the `init.sql` and addressed via finding errors in `docker compose logs postgres`.      
+### Common issues
+- syntax issues within the `init.sql`, addressed via finding errors in `docker compose logs postgres`
+- docker caching previous `Dockerfile`s -- address with `docker-compose build --no-cache`
