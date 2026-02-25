@@ -9,6 +9,7 @@ db = SQLAlchemy(app)
 
 import ebooklib
 from ebooklib import epub
+import re
 
 import os
 from werkzeug.utils import secure_filename
@@ -33,6 +34,18 @@ def read_epub_file(filepath):
     print(f"text content = {text_content}")
     return '\n'.join(text_content)
 
+def word_frequency_analysis(alltext):
+    # Simple word frequency analysis using regex to split words
+    alltext = re.sub(r'<[^>]+>', '', alltext)     # remove html tags
+    words = re.findall(r'\b\w+\b', alltext.lower())
+    frequency = {}
+    for word in words:
+        frequency[word] = frequency.get(word, 0) + 1
+    # Sort by frequency
+    sorted_freq = sorted(frequency.items(), key=lambda item: item[1], reverse=True)
+    sorted_dict = {word: count for word, count in sorted_freq}
+    return sorted_dict
+     
 class Book(db.Model):
     __tablename__ = "ol_books"
 
@@ -85,8 +98,9 @@ def submit_epub():
         filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         file.save(filepath)
         epub_text = read_epub_file(filepath)
+        word_freq = word_frequency_analysis(epub_text)
         # For now, just show the extracted text (or you can process/store it as needed)
-        return render_template('index.html', books=Book.query.order_by(Book.author.desc()).all(), epub_text=epub_text)
+        return render_template('index.html', books=Book.query.order_by(Book.author.desc()).all(), word_freq=word_freq) 
     else:
         flash('Invalid file type')
         return redirect(request.url)

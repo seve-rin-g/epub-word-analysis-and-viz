@@ -7,7 +7,6 @@
 </div>
 
 <div>
-db connection working (see below, after seeding)
 
 
 </div>
@@ -30,12 +29,11 @@ db connection working (see below, after seeding)
   {% endfor %}
 </div>
 
-epub text: 
-{% if epub_text %}
+{% if word_freq %}
 <hr>
 <div>
-  <h3>Extracted EPUB Text:</h3>
-  <pre style="white-space: pre-wrap; word-break: break-word; max-height: 400px; overflow-y: auto;">{{ epub_text|safe }}</pre>
+  <h3>Word Frequency:</h3>
+  <pre style="white-space: pre-wrap; word-break: break-word; max-height: 400px; overflow-y: auto;">{{ word_freq|safe }}</pre>
 </div>
 {% endif %}
 
