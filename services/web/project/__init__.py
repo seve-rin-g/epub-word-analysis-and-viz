@@ -1,15 +1,11 @@
 from flask import Flask, jsonify, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
-
+from .wordprocessing import read_epub_file, word_frequency_analysis
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'replace-this-with-a-secure-random-string'
 app.config.from_object("project.config.Config")
 db = SQLAlchemy(app)
-
-import ebooklib
-from ebooklib import epub
-import re
 
 import os
 from werkzeug.utils import secure_filename
@@ -23,28 +19,6 @@ if not os.path.exists(UPLOAD_FOLDER):
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
-def read_epub_file(filepath):
-    book = epub.read_epub(filepath)
-    # Example: extract all text from the epub
-    text_content = []
-    for item in book.get_items():
-        if item.get_type() == ebooklib.ITEM_DOCUMENT:
-            text_content.append(item.get_content().decode('utf-8', errors='ignore'))
-    print(f"text content = {text_content}")
-    return '\n'.join(text_content)
-
-def word_frequency_analysis(alltext):
-    # Simple word frequency analysis using regex to split words
-    alltext = re.sub(r'<[^>]+>', '', alltext)     # remove html tags
-    words = re.findall(r'\b\w+\b', alltext.lower())
-    frequency = {}
-    for word in words:
-        frequency[word] = frequency.get(word, 0) + 1
-    # Sort by frequency
-    sorted_freq = sorted(frequency.items(), key=lambda item: item[1], reverse=True)
-    sorted_dict = {word: count for word, count in sorted_freq}
-    return sorted_dict
      
 class Book(db.Model):
     __tablename__ = "ol_books"
