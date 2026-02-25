@@ -5,7 +5,6 @@ app = Flask(__name__)
 app.config.from_object("project.config.Config")
 db = SQLAlchemy(app)
 
-
 class Book(db.Model):
     __tablename__ = "ol_books"
 

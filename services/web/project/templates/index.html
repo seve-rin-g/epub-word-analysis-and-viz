@@ -16,8 +16,8 @@ db connection working (see below, after seeding)
 
 <form action="/submit" method="POST">
   <div class="form-group">
-    <input name="text" class="form-control input-lg" type="text" placeholder="Upload an ePub file" required>  <input type="submit" class="btn btn-primary btn-lg btn-block" value="Submit">
-
+    <input type="file" accept=".epub">
+    <input type="submit" class="btn btn-primary btn-lg btn-block" value="Submit">
   </div>
 </form>
 
@@ -29,5 +29,7 @@ db connection working (see below, after seeding)
     <h4 class="well"><strong>{{book.title}}</strong> - <em>{{book.author}}</em></h4>
   {% endfor %}
 </div>
+
+
 
 {% endblock %}
