@@ -74,7 +74,7 @@ def submit_epub():
         epub_text = read_epub_file(filepath)
         word_freq = word_frequency_analysis(epub_text)
         # For now, just show the extracted text (or you can process/store it as needed)
-        return render_template('index.html', books=Book.query.order_by(Book.author.desc()).all(), word_freq=word_freq) 
+        return render_template('index.html', books=Book.query.order_by(Book.author.desc()).all(), word_freq=word_freq, epub_text=epub_text) 
     else:
         flash('Invalid file type')
         return redirect(request.url)
