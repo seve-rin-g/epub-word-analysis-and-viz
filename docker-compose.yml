@@ -1,19 +1,21 @@
-networks: 
-  dem:
 services:
-  postgres: 
-    image: postgres:latest
-    restart: always
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgrespw
-      - POSTGRES_DB=ol_bookdb
-    ports:
-      - "5432:5432"
+  web:
+    build: ./services/web
+    command: python3 manage.py run -h 0.0.0.0
     volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-    networks:
-      - dem
+      - ./services/web/:/usr/src/app/
+    ports:
+      - 5001:5000
+    env_file:
+      - ./.env.dev
+  db:
+    image: postgres:13
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=hello_flask
+      - POSTGRES_PASSWORD=hello_flask
+      - POSTGRES_DB=hello_flask_dev
   pgadmin:
     image: dpage/pgadmin4:latest
     restart: always
@@ -21,19 +23,9 @@ services:
       PGADMIN_DEFAULT_EMAIL: admin@admin.com
       PGADMIN_DEFAULT_PASSWORD: pgadminpw2
     ports:
-      - 5001:80
+      - 5002:80
     depends_on:
-      - postgres
-    networks:
-      - dem
-  app:
-    restart: unless-stopped
-    build:
-      context: .
-      dockerfile: Dockerfile_app
-    volumes:
-      - .:/postgres_python
-    depends_on:
-      - postgres
-    networks:
-      - dem 
+      - db
+
+volumes:
+  postgres_data:
