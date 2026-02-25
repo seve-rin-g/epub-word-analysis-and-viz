@@ -16,7 +16,28 @@ class Book(db.Model):
     def __init__(self, title, author):
         self.title = title
         self.author = author
+        
+class Word(db.Model):
+    __tablename__ = "ol_words"
 
+    id = db.Column(db.Integer, primary_key=True)
+    word = db.Column(db.String(128))
+
+    def __init__(self, word):
+        self.word = word
+        
+class WordBookLink(db.Model):
+    __tablename__ = "ol_word_book_link"
+
+    id = db.Column(db.Integer, primary_key=True)
+    wordid = db.Column(db.Integer, db.ForeignKey('ol_words.id'))
+    bookid = db.Column(db.Integer, db.ForeignKey('ol_books.id'))
+    frequency = db.Column(db.Integer)
+
+    def __init__(self, wordid, bookid):
+        self.wordid = wordid
+        self.bookid = bookid
+        
 @app.route("/")
 def homepage():
     books = Book.query.order_by(Book.author.desc()).all()
