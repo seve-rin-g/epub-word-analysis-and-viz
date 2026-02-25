@@ -3,21 +3,20 @@
 {% block content %}
 
 <div class="text-center">
-  <h1>title / book frequency</h1>
+  <h1>epub -> word frequency</h1>
 </div>
 
 <div>
-db connection working (see below, after seeding)
 
 
 </div>
 
 <br>
 
-<form action="/submit" method="POST">
-  <div class="form-group">
-    <input name="text" class="form-control input-lg" type="text" placeholder="Upload an ePub file" required>  <input type="submit" class="btn btn-primary btn-lg btn-block" value="Submit">
-
+<form action="/submit" method="POST" enctype="multipart/form-data">
+  <div class="form-group">    
+    <input type="file" name="file" accept=".epub">
+    <input type="submit" class="btn btn-primary btn-lg btn-block" value="Submit">
   </div>
 </form>
 
@@ -29,5 +28,93 @@ db connection working (see below, after seeding)
     <h4 class="well"><strong>{{book.title}}</strong> - <em>{{book.author}}</em></h4>
   {% endfor %}
 </div>
+
+{% if word_freq %}
+<hr>
+
+<div>
+  <h3>Word Frequency:</h3>
+
+  {% set word_freq_by_cls = word_freq|groupby('2') %}
+  {% for cls, items in word_freq_by_cls %}
+    <h4>{{ cls }}</h4>
+    <ul>
+      {% for word, freq, _ in items %}
+        <li>{{ word }}: {{ freq }}</li>
+      {% endfor %}
+    </ul>
+  {% endfor %}
+
+  <pre style="white-space: pre-wrap; word-break: break-word; max-height: 400px; overflow-y: auto;">{{ epub_text|safe }}</pre>
+  
+  <div id="word-frequency-cloud"></div>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="https://unpkg.com/d3-cloud/build/d3.layout.cloud.js"></script>
+  <script>
+    // Prepare data for D3 word cloud
+    const wordFreqData = [
+      {% for word, freq, cls in word_freq %}
+        { text: "{{ word }}", size: 2 + {{ freq }} * 1, freq: {{ freq }}, cls: "{{ cls }}" },
+      {% endfor %}
+    ];
+    const data = wordFreqData.sort((a, b) => d3.descending(a.freq, b.freq)).slice(0, 80); // top 80 words
+
+    const width = 900, height = 500;
+    const color = d3.scaleOrdinal()
+      .domain(["article", "pronoun", "verb", "adjective", "noun"])
+      .range(["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd"]);
+
+    d3.layout.cloud()
+      .size([width, height])
+      .words(data)
+      .padding(5)
+      .rotate(() => ~~(Math.random() * 2) * 90)
+      .font("Impact")
+      .fontSize(d => d.size)
+      .on("end", draw)
+      .start();
+
+    function draw(words) {
+      d3.select("#word-frequency-cloud").append("svg")
+        .attr("width", width)
+        .attr("height", height)
+        .append("g")
+        .attr("transform", `translate(${width / 2},${height / 2})`)
+        .selectAll("text")
+        .data(words)
+        .enter().append("text")
+        .style("font-size", d => d.size + "px")
+        .style("font-family", "Impact")
+        .style("fill", d => color(d.cls))
+        .attr("text-anchor", "middle")
+        .attr("transform", d => `translate(${d.x},${d.y})rotate(${d.rotate})`)
+        .text(d => d.text)
+        .append("title")
+        .text(d => `${d.text} (${d.cls}): ${d.freq}`);
+
+      // Add legend
+      const legend = d3.select("#word-frequency-cloud svg")
+        .append("g")
+        .attr("transform", `translate(${width - 120},${height - 180})`);
+      color.domain().forEach((cls, i) => {
+        legend.append("rect")
+          .attr("x", 0)
+          .attr("y", i * 22)
+          .attr("width", 18)
+          .attr("height", 18)
+          .style("fill", color(cls));
+        legend.append("text")
+          .attr("x", 24)
+          .attr("y", i * 22 + 13)
+          .text(cls)
+          .style("font-size", "16px")
+          .attr("alignment-baseline", "middle");
+      });
+    }
+  </script>
+</div>
+{% endif %}
+
+
 
 {% endblock %}
