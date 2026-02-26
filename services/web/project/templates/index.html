@@ -35,15 +35,11 @@
 <div>
   <h3>Word Frequency:</h3>
 
-  {% set word_freq_by_cls = word_freq|groupby('2') %}
-  {% for cls, items in word_freq_by_cls %}
-    <h4>{{ cls }}</h4>
     <ul>
-      {% for word, freq, _ in items %}
+      {% for word, freq in word_freq %}
         <li>{{ word }}: {{ freq }}</li>
       {% endfor %}
     </ul>
-  {% endfor %}
 
   <pre style="white-space: pre-wrap; word-break: break-word; max-height: 400px; overflow-y: auto;">{{ epub_text|safe }}</pre>
   
@@ -53,8 +49,8 @@
   <script>
     // Prepare data for D3 word cloud
     const wordFreqData = [
-      {% for word, freq, cls in word_freq %}
-        { text: "{{ word }}", size: 2 + {{ freq }} * 1, freq: {{ freq }}, cls: "{{ cls }}" },
+      {% for word, freq in word_freq %}
+        { text: "{{ word }}", size: 2 + {{ freq }} * 1, freq: {{ freq }}, cls: "2" },
       {% endfor %}
     ];
     const data = wordFreqData.sort((a, b) => d3.descending(a.freq, b.freq)).slice(0, 80); // top 80 words
