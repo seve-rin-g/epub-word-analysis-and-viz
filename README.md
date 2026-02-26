@@ -2,7 +2,7 @@
 
 I wanted to strengthen my backend knowledge, so I'm building this small app before moving onto replicating a larger time-series postgresdb. 
 
-*One-liner about this app.*
+Imports epubs, analyzes word frequency, updates the postgresDB with markers, and outputs visual analysis. 
 
 *Screenshot goes here.*
 ## Functionality (Intentioned)
@@ -23,6 +23,7 @@ Although I've interacted with several (often very complex) postgres databases, I
 
 I'm following this tutorial: https://www.youtube.com/watch?v=Pox10kU7d2c
 
-022326: So far, most issues are syntax issues within the `init.sql` and addressed via finding errors in `docker compose logs postgres`.      
-022426: Another thing to watch out for: docker caching previous `Dockerfile`s -- address with `docker-compose build --no-cache`
-022626: Flask app working, postgres/pgadmin/web are all working in dev. Time to work on epub importing and visualization (the fun stuff).
+022226: So far, most issues are syntax issues within the `init.sql` and addressed via finding errors in `docker compose logs postgres`.      
+022326: Another thing to watch out for: docker caching previous `Dockerfile`s -- address with `docker-compose build --no-cache`.
+022426: Flask app working, postgres/pgadmin/web are all working in dev. Time to work on epub importing and visualization (the fun stuff).
+022626: NLP library integration
