@@ -2,3 +2,19 @@ body {
     padding: 50px;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
+#left-col {
+    float: left;
+    width: 30%;
+    padding-right: 20px;
+    border-right: 1px solid #ccc;
+    max-height: 900px;
+    overflow-y: auto;
+    font-size: 2em;
+}
+#right-col {
+    float: right;
+    width: 60%;
+    text-align: left;
+    vertical-align: center;
+    line-height: 1.5;
+}

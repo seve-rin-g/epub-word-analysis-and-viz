@@ -35,17 +35,30 @@
 <div>
   <h3>Word Frequency:</h3>
 
+  <div id="left-col" >
+
     <ul>
       {% for word, freq in word_freq %}
-        <li>{{ word }}: {{ freq }}</li>
+        <li><a onmouseover="showContext('{{ word }}')">{{ word }}: {{ freq }}</a></li>
       {% endfor %}
     </ul>
-
-  <pre style="white-space: pre-wrap; word-break: break-word; max-height: 400px; overflow-y: auto;">{{ epub_text|safe }}</pre>
-  
+</div>
+<div id="right-col"></div>  
   <div id="word-frequency-cloud"></div>
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <script src="https://unpkg.com/d3-cloud/build/d3.layout.cloud.js"></script>
+  <script>
+    function showContext(word) {
+      const context = {{ sentence_sources|tojson }};
+      // line break between context[word] entries if it's an array of sentences
+      const contextEntries = context[word] || [];
+      if (Array.isArray(contextEntries)) {
+        document.getElementById("right-col").innerHTML = `<p>${contextEntries.map(e => `<span>${e}</span>`).join('<br>')}</p>`;
+      } else {
+        document.getElementById("right-col").innerHTML = `<p>${contextEntries}</p>`;
+      }
+    }
+  </script>
   <script>
     // Prepare data for D3 word cloud
     const wordFreqData = [
