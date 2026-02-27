@@ -72,9 +72,9 @@ def submit_epub():
         filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         file.save(filepath)
         epub_text = read_epub_file(filepath)
-        word_freq = word_frequency_analysis(epub_text)
+        word_freq, sentence_sources = word_frequency_analysis(epub_text)
         # For now, just show the extracted text (or you can process/store it as needed)
-        return render_template('index.html', books=Book.query.order_by(Book.author.desc()).all(), word_freq=word_freq, epub_text=epub_text) 
+        return render_template('index.html', books=Book.query.order_by(Book.author.desc()).all(), word_freq=word_freq, epub_text=epub_text, sentence_sources=sentence_sources) 
     else:
         flash('Invalid file type')
         return redirect(request.url)

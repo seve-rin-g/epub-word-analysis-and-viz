@@ -35,11 +35,14 @@
 <div>
   <h3>Word Frequency:</h3>
 
+  <div id="left-col">
     <ul>
       {% for word, freq in word_freq %}
-        <li>{{ word }}: {{ freq }}</li>
+        <li><a title="Context: {{ sentence_sources[word] }}">{{ word }}: {{ freq }}</a></li>
       {% endfor %}
     </ul>
+</div>
+<div id="right-col"></div>
 
   <pre style="white-space: pre-wrap; word-break: break-word; max-height: 400px; overflow-y: auto;">{{ epub_text|safe }}</pre>
   

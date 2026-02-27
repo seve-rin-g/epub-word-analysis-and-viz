@@ -32,15 +32,19 @@ def word_frequency_analysis(alltext):
     words = re.findall(r'\b\w+\b', alltext.lower()) # regex version
     pos_tagged = nltk.pos_tag(words)
     frequency = {}
-    for word, pos in pos_tagged:
+    sentences = {}
+    for idx, (word, pos) in enumerate(pos_tagged):
         if word.isdigit():
             continue    
         stemmedword = WordNetLemmatizer().lemmatize(word, get_wordnet_pos(pos[0].upper())) # stem the word to its root form
         frequency[stemmedword] = frequency.get(stemmedword, 0) + 1
+        if stemmedword not in sentences:
+            sentences[stemmedword] = []
+        sentences[stemmedword].append(' '.join(words[max(0, idx-4):idx+5])) # store surrounding words for context (4 before and 4 after)   
     # Sort by word
     sorted_freq = sorted(frequency.items(), key=lambda item: item[0])
     
-    return sorted_freq
+    return sorted_freq, sentences
 
 def semantic_grouping(word_freq):
     # Placeholder for semantic grouping logic
