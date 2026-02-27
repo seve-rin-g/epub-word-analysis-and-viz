@@ -1,6 +1,6 @@
 ## Summary
 
-I wanted to strengthen my backend knowledge, so I'm building this small app before moving onto replicating the large-dataset (high-frequency time-series) postgresdb that has comprised most of past experience. 
+I wanted to strengthen my backend knowledge, so I'm building this small app before moving onto replicating the large-dataset (high-frequency time-series) postgresdb that has comprised most of my past experience. 
 
 Imports epubs, analyzes word frequency, updates the postgresDB with markers, and outputs visual analysis. 
 
